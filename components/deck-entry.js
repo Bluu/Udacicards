@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { startCreateDeck } from '../actions'; 
+import { startCreateDeck, selectDeck } from '../actions'; 
 import { primary, white } from '../utils/colors';
 
 class DeckEntry extends PureComponent {
@@ -18,8 +18,12 @@ class DeckEntry extends PureComponent {
             return;
         }
 
-        this.props.startCreateDeck(deckTitle);
-        this.props.navigation.navigate('Decks');
+        this.props.startCreateDeck(deckTitle)
+            .then(deck => {
+                this.props.navigation.navigate('Deck', { deckTitle });
+            })
+            .catch(error => alert('Error ocurred when saving the Deck...'));
+        
         this.setState({ deckTitle : '' });
     }
 
@@ -81,7 +85,5 @@ export default connect(
     // map state to props
     null,
     // map dispatch to props
-    dispatch => bindActionCreators({
-        startCreateDeck,
-    }, dispatch)
+    { startCreateDeck }
 )(DeckEntry);

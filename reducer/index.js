@@ -24,6 +24,7 @@ export default function decksReducer (state = initialState, action) {
                 decks: Object.assign({}, state.decks, action.deck),
             }
         case SELECT_DECK:
+            console.log('select change', action.selectedDeckId)
             return {
                 ...state,
                 selectedDeckId: action.selectedDeckId,

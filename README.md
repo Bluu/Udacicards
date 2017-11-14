@@ -40,8 +40,10 @@ This will install the app in the emulator or phone
 * [NodeJs](https://nodejs.org/en/)
 * [React](https://facebook.github.io/react/)
 * [React-Native](https://facebook.github.io/react-native/)
+* [React-Navigation](https://github.com/react-community/react-navigation)
 * [Create React Native App](https://github.com/react-community/create-react-native-app)
 * [Redux](http://redux.js.org/)
+* [Expo](https://expo.io/)
 
 ## Authors
 
@@ -50,3 +52,7 @@ This will install the app in the emulator or phone
 ## Acknowledgments
 
 * Udacity
+
+## LICENSE
+
+[MIT](https://github.com/Bluu/Udacicards/blob/master/LICENSE)

@@ -55,7 +55,12 @@ export const startFetchDecks = () => {
 
 export const startCreateDeck = (title) => {
     return dispatch => (
-        saveDeck(title).then(deck => dispatch(createDeck(deck)))
+        saveDeck(title).then(deck => {
+            const deckId = Object.keys(deck)[0];
+            
+            dispatch(createDeck(deck));
+            dispatch(selectDeck(deckId))
+        })
     )
 }
 
