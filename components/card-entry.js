@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { startCreateCard } from '../actions'; 
-import { primary, white } from '../utils/colors';
+import { containerViewStyles, inputStyles, buttonStyles } from '../styles';
 
 class CardEntry extends PureComponent {
     state = {
@@ -19,7 +19,7 @@ class CardEntry extends PureComponent {
         } = this.state;
 
         if (!question || !answer) {
-            return;
+            return alert('Please enter a question and answer for your card!');
         }
 
         const {
@@ -43,59 +43,29 @@ class CardEntry extends PureComponent {
 
     render () {
         return (
-            <View style={styles.container}>
+            <View style={[containerViewStyles.container, containerViewStyles.containerAllCenter]}>
                 <TextInput 
-                    style={styles.input}
+                    style={inputStyles.input}
                     placeholder="Question" 
                     defaultValue={this.state.question}
                     onChangeText={question => this.setState({ question })}
                 />
                 <TextInput 
-                    style={styles.input}
+                    style={inputStyles.input}
                     placeholder="Answer" 
                     defaultValue={this.state.answer}
                     onChangeText={answer => this.setState({ answer })}
                 />
                 <TouchableOpacity 
-                    style={styles.submitBtn}
+                    style={[buttonStyles.btn, buttonStyles.primaryBtn]}
                     onPress={this.createCard}
                 >
-                    <Text style={styles.submitBtnText}>Submit</Text>
+                    <Text style={buttonStyles.btnWhiteText}>Submit</Text>
                 </TouchableOpacity>
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: white,
-    },
-    input: {
-        width: '90%',
-        backgroundColor: white,
-        padding: 10,
-        marginBottom: 20,
-        borderColor: primary,
-        borderWidth: 1,
-        borderRadius: 3,
-    },
-    submitBtn: {
-        backgroundColor: primary,
-        borderColor: primary,
-        borderWidth: 1,
-        borderRadius: 3,
-        padding: 5,
-        paddingLeft: 25,
-        paddingRight: 25,
-    },
-    submitBtnText: {
-        color: white,
-    }
-})
 
 export default connect(
     // map state to props

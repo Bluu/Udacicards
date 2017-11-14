@@ -10,7 +10,8 @@ import {
     clearLocalNotification,
     setLocalNotification,
 } from '../api';
-import { primary, secondary, white } from '../utils/colors';
+import { primary, secondary } from '../utils/colors';
+import { containerViewStyles, labelStyles, buttonStyles } from '../styles';
 
 class Quiz extends Component {
     state = {
@@ -45,7 +46,15 @@ class Quiz extends Component {
         })
     }
 
-    onFinish = () => {
+    onRestartQuiz = () => {
+        this.setState({
+            quizCardIndex: 0,
+            quizCorrectScore: 0,
+            displayAnswer: false,
+        });
+    }
+
+    onBackToDeck = () => {
         clearLocalNotification()
             .then(setLocalNotification);
 
@@ -67,27 +76,33 @@ class Quiz extends Component {
             const score = Math.round((quizCorrectScore / deck.questions.length) * 100);
 
             return (
-                <View style={styles.contentContainer}>
-                    <Text style={styles.questionAndAnswer}>SCORE</Text>
-                    <Text style={[styles.score, { color: score > 60 ? primary : secondary }]}>
+                <View style={[containerViewStyles.container, containerViewStyles.containerAllCenter]}>
+                    <Text style={labelStyles.title}>SCORE</Text>
+                    <Text style={[labelStyles.title, { fontSize: 50, color: score > 60 ? primary : secondary }]}>
                         {score}%
                     </Text>
                     <TouchableOpacity 
-                        style={[styles.btn, styles.btnCorrect]}
-                        onPress={this.onFinish}
+                        style={[buttonStyles.btn, buttonStyles.primaryOutlineBtn]}
+                        onPress={this.onRestartQuiz}
                     >
-                        <Text style={styles.btnText}>Finish</Text>
+                        <Text style={buttonStyles.btnText}>Restart Quiz</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={[buttonStyles.btn, buttonStyles.primaryBtn]}
+                        onPress={this.onBackToDeck}
+                    >
+                        <Text style={buttonStyles.btnWhiteText}>Back to Deck</Text>
                     </TouchableOpacity>
                 </View>
             );
         } else {
             return (
-                <View style={styles.container}>
+                <View style={containerViewStyles.container}>
                     <Text style={styles.counter}>
                         {`${quizCardIndex + 1}/${deck.questions.length}`}
                     </Text>
-                    <View style={styles.contentContainer}>
-                        <Text style={styles.questionAndAnswer}>
+                    <View style={[containerViewStyles.container, containerViewStyles.containerAllCenter]}>
+                        <Text style={labelStyles.title}>
                             {displayAnswer ? card.answer : card.question }
                         </Text>
                         <TouchableOpacity onPress={this.onFlipCard}>
@@ -96,16 +111,16 @@ class Quiz extends Component {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            style={[styles.btn, styles.btnCorrect]}
+                            style={[buttonStyles.btn, buttonStyles.primaryBtn]}
                             onPress={() => this.onNextCard(true)}
                         >
-                            <Text style={styles.btnText}>Correct</Text>
+                            <Text style={buttonStyles.btnWhiteText}>Correct</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            style={[styles.btn, styles.btnIncorrect]}
+                            style={[buttonStyles.btn, buttonStyles.secondaryBtn]}
                             onPress={() => this.onNextCard(false)}
                         >
-                            <Text style={styles.btnText}>Incorrect</Text>
+                            <Text style={buttonStyles.btnWhiteText}>Incorrect</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -115,32 +130,10 @@ class Quiz extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: white,
-    },
-    contentContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: white,
-    },
     counter: {
         letterSpacing: 3,
         fontWeight: 'bold',
         padding: 5,
-    },
-    questionAndAnswer: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        textAlign: 'center'
-    },
-    score: {
-        fontSize: 50,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginTop: 20,
-        marginBottom: 20,
     },
     flipBtnText: {
         color: secondary,
@@ -148,27 +141,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 50,
     },
-    btn: {
-        borderWidth: 1,
-        borderRadius: 3,
-        padding: 5,
-        paddingLeft: 25,
-        paddingRight: 25,
-        width: '40%',
-        marginBottom: 20,
-    },
-    btnCorrect: {
-        backgroundColor: primary,
-        borderColor: primary,
-    },
-    btnIncorrect: {
-        backgroundColor: secondary,
-        borderColor: secondary,
-    },
-    btnText: {
-        color: white,
-        textAlign: 'center',
-    }
 })
 
 export default connect(

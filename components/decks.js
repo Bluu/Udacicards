@@ -11,6 +11,7 @@ import {
 } from '../actions'; 
 import DeckListItem from './deck-list-item';
 import { primary, white } from '../utils/colors';
+import { containerViewStyles } from '../styles';
 
 class Decks extends PureComponent {
     onDeckItemPress = (deck) => {
@@ -48,7 +49,7 @@ class Decks extends PureComponent {
         decks.sort((a, b) => a.title == b.title ? 0 : +(a.title > b.title) || -1);
 
         return (
-            <View style={styles.container}>
+            <View style={containerViewStyles.container}>
                 <FlatList
                     data={decks}
                     renderItem={this.renderDeckItem}
@@ -61,10 +62,6 @@ class Decks extends PureComponent {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white'
-    },
     separator: {
         height: 1,
         backgroundColor: primary,

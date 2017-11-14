@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import DeckListItem from './deck-list-item';
-import { primary, white } from '../utils/colors';
+import { containerViewStyles, buttonStyles } from '../styles';
 
 class Deck extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -28,53 +28,24 @@ class Deck extends Component {
         const { deck } = this.props;
 
         return (
-            <View style={styles.container}>
+            <View style={[containerViewStyles.container, containerViewStyles.containerAllCenter]}>
                 <DeckListItem deckTitle={deck.title} cardsTotal={deck.questions.length} fontSize={30} />
                 <TouchableOpacity 
-                    style={styles.btn}
+                    style={[buttonStyles.btn, buttonStyles.primaryOutlineBtn]}
                     onPress={this.onAddCard}
                 >
-                    <Text style={styles.btnText}>Add Card</Text>
+                    <Text style={buttonStyles.btnText}>Add Card</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
-                    style={[styles.btn, styles.startBtn]}
+                    style={[buttonStyles.btn, buttonStyles.primaryBtn]}
                     onPress={this.onStartQuiz}
                 >
-                    <Text style={[styles.btnText, styles.startBtnText]}>Start Quiz</Text>
+                    <Text style={buttonStyles.btnWhiteText}>Start Quiz</Text>
                 </TouchableOpacity>
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: white,
-    },
-    btn: {
-        borderColor: primary,
-        borderWidth: 1,
-        borderRadius: 3,
-        padding: 5,
-        paddingLeft: 25,
-        paddingRight: 25,
-        marginTop: 20,
-        width: '40%',
-        
-    },
-    btnText: {
-        textAlign: 'center',
-    },
-    startBtn: {
-        backgroundColor: primary,
-    },
-    startBtnText: {
-        color: white,
-    }
-})
 
 export default connect(
     // map state to props
